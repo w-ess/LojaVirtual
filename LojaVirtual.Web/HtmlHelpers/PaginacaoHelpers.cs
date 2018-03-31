@@ -7,6 +7,7 @@ namespace LojaVirtual.Web.HtmlHelpers
 {
     public static class PaginacaoHelpers
     {
+        // Controla paginação
         public static MvcHtmlString PageLinks(this HtmlHelper html, Paginacao paginacao, Func<int, string> paginaUrl)
         {
             StringBuilder resultado = new StringBuilder();
