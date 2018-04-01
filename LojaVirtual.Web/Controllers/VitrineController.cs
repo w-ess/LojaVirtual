@@ -1,4 +1,5 @@
 ﻿using LojaVirtual.Dominio.Repositorio;
+using LojaVirtual.Dominio.Entidade;
 using LojaVirtual.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,16 @@ namespace LojaVirtual.Web.Controllers
     public class VitrineController : Controller
     {
         private ProdutosRepositorio _repositorio;
-        public int ProdutosPorPagina = 3;
+        public int ProdutosPorPagina = 10;
         // GET: Vitrine
-        public ViewResult ListaProdutos(int pagina = 1)
+        public ViewResult ListaProdutos(string categoria, int pagina = 1)
         {
             _repositorio = new ProdutosRepositorio();
 
             ProdutosViewModel model = new ProdutosViewModel
             {
                 Produtos = _repositorio.Produtos
+                .Where(p => categoria == null || p.Categoria == categoria)
                 .OrderBy(p => p.Descricao)
                 .Skip((pagina - 1) * ProdutosPorPagina)
                 .Take(ProdutosPorPagina),
@@ -29,7 +31,9 @@ namespace LojaVirtual.Web.Controllers
                     PaginaAtual = pagina,
                     ItensPorPagina = ProdutosPorPagina,
                     ItensTotal = _repositorio.Produtos.Count()
-                }
+                },
+
+                CategoriaAtual = categoria
             };
 
 
