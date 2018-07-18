@@ -1,5 +1,6 @@
 ﻿using LojaVirtual.Dominio.Entidade;
 using LojaVirtual.Dominio.Repositorio;
+using LojaVirtual.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace LojaVirtual.Web.Controllers
             if (carrinho == null)
             {
                 carrinho = new Carrinho();
+                Session["Carrinho"] = carrinho;
             }
 
             return carrinho;
@@ -57,6 +59,15 @@ namespace LojaVirtual.Web.Controllers
 
             return RedirectToAction("Index", new { returnUrl });
 
+        }
+
+        public ViewResult Index(String returnurl)
+        {
+            return View(new CarrinhoViewModel
+            {
+                carrinho = ObterCarrinho(),
+                ReturnUrl = returnurl
+            });
         }
 
     }
